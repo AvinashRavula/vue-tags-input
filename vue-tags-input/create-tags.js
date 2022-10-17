@@ -32,7 +32,14 @@ const createClasses = (tag, tags, validation = [], customDuplicateFn) => {
   // create css classes from the user validation array
   const classes = validateUserRules(tag, validation);
 
+  /* =====================================================================
+  Commenting out this code because it is poorly written by vendor.
+  And at the time of this commit, we aren't in the need to finding duplicates implicitly while creating classes.
+  If you would like to add ti-duplicate for duplicate tags, pass the customDuplicateFn
+  to evaluate if a tag is duplicate. If customDuplicateFn returns true then ti-duplicate class will be added.
+  =========================================================================
   // if we find the tag, it's an exsting one which is edited.
+
   // in this case we must splice it out
   const index = findIndex(tags, t => t === tag);
   const tagsDiff = clone(tags);
@@ -44,6 +51,8 @@ const createClasses = (tag, tags, validation = [], customDuplicateFn) => {
 
   // if it's a duplicate, push the class duplicate to the array
   if (duplicate) classes.push('ti-duplicate');
+  */
+  if (customDuplicateFn && customDuplicateFn(tags, tag)) classes.push('ti-duplicate');
 
   // if we find no classes, the tag is valid → push the class valid
   classes.length === 0 ? classes.push('ti-valid') : classes.push('ti-invalid');
